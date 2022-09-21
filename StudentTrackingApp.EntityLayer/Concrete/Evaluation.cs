@@ -18,7 +18,13 @@ namespace StudentTracking.EntityLayer
         public string EvaluationContent { get; set; }
         public DateTime EvaluationDate { get; set; }
         public bool EvaluationStatus { get; set; }
+
+        //Relation
         public int StudentId { get; set; }
+        public Student Student { get; set; }
+
+
         public int TeacherId { get; set; }
+        public Teacher Teacher { get; set; }
     }
 }

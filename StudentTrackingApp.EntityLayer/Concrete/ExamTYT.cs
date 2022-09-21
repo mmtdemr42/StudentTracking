@@ -23,5 +23,9 @@ namespace StudentTracking.EntityLayer
         public Byte MatematikYanlis { get; set; }
         public Byte FenBilimleriDogru { get; set; }
         public Byte FenBilimleriYanlis { get; set; }
+
+
+        //Relation
+        public List<Student> Students { get; set; }
     }
 }

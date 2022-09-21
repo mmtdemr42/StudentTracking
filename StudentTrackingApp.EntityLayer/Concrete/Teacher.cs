@@ -24,5 +24,11 @@ namespace StudentTracking.EntityLayer
 
         [StringLength(20)]
         public string Password { get; set; }
+
+
+        //Relation
+        public List<Evaluation> Evaluations { get; set; }
+
+        public List<Student> Students { get; set; }
     }
 }

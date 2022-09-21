@@ -14,5 +14,8 @@ namespace StudentTracking.EntityLayer
         [StringLength(30)]
         public string BookName { get; set; }
         public Int16 BookPageCount { get; set; }
+
+        //Relation
+        public List<Student> Students { get; set; }
     }
 }

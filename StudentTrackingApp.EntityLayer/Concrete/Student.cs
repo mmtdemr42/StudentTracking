@@ -12,7 +12,6 @@ namespace StudentTracking.EntityLayer
         [Key]
         public int StudentId { get; set; }
         public int StudentNumber { get; set; }
-        public int ClassId { get; set; }
 
         [StringLength(20)]
         public string StudentName { get; set; }
@@ -29,5 +28,27 @@ namespace StudentTracking.EntityLayer
         public string StudentPassword { get; set; }
         public bool StudentStatus { get; set; }
 
+        //Relation
+        public List<Book> Books { get; set; }
+
+        public int ClassId { get; set; }
+        public Class Class { get; set; }
+
+        public List<Evaluation> Evaluations { get; set; }
+
+        public List<ExamTYT> ExamTYTs { get; set; }
+
+
+        public List<Lesson> Lessons { get; set; }
+
+
+        public List<Question> Questions { get; set; }
+
+
+        public int TeacherId { get; set; }
+        public Teacher Teacher { get; set; }
+
+
+        public List<Todo> Todos { get; set; }
     }
 }

@@ -14,5 +14,10 @@ namespace StudentTracking.EntityLayer
 
         [StringLength(100)]
         public string SubjectName { get; set; }
+
+
+        //Relation
+        public int LessonId { get; set; }
+        public Lesson Lesson { get; set; }
     }
 }

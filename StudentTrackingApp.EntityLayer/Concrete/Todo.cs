@@ -21,5 +21,10 @@ namespace StudentTracking.EntityLayer
         public string TodoContent { get; set; }
         public bool TodoStatus { get; set; }
 
+
+        //Relation
+        public int StudentId { get; set; }
+        public Student Student { get; set; }
+
     }
 }
