@@ -17,4 +17,13 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Abstract\" />
+    <Folder Include="EntityFramework\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\StudentTrackingApp.EntityLayer\StudentTracking.EntityLayer.csproj" />
+  </ItemGroup>
+
 </Project>
