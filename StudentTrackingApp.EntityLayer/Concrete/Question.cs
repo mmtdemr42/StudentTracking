@@ -14,10 +14,10 @@ namespace StudentTracking.EntityLayer
 
 
         //Relation
-        public int StudentId { get; set; }
+        public int? StudentId { get; set; }
         public Student Student { get; set; }
 
-        public Byte LessonId { get; set; }
+        public Byte? LessonId { get; set; }
         public Lesson Lesson { get; set; }
     }
 }

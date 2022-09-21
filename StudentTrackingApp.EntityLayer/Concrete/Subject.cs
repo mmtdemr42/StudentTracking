@@ -17,7 +17,7 @@ namespace StudentTracking.EntityLayer
 
 
         //Relation
-        public int LessonId { get; set; }
+        public Byte LessonId { get; set; }
         public Lesson Lesson { get; set; }
     }
 }

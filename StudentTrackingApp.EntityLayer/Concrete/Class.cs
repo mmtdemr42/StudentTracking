@@ -13,11 +13,9 @@ namespace StudentTracking.EntityLayer
         public int ClassId { get; set; }
 
         [StringLength(5)]
-        public string ClassNAme { get; set; }
+        public string ClassName { get; set; }
 
         //Relation
-        public int StudentId { get; set; }
-        public Student Student { get; set; }
 
         public List<Student> Students { get; set; }
     }

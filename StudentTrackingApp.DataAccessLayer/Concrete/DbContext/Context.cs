@@ -12,7 +12,7 @@ namespace StudentTracking.DataAccessLayer.Concrete.DBContext
     {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("server=(localdb)\\MSSQLLocalDB;Database=CaseSiparisDb;integrated security=true;");
+            optionsBuilder.UseSqlServer("server=(localdb)\\MSSQLLocalDB;Database=StudentTrackingDB;integrated security=true;");
         }
 
         public DbSet<About> Abouts { get; set; }
