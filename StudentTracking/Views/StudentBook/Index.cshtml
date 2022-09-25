@@ -31,58 +31,56 @@
 
                     @foreach (var book in Model)
                     {
-                    <tr class="text-center">
-                        @{ remainder = (int)book.BookPageCount - (int)book.Revalsed;
-                            if (desk == 1)
-                            {
-                                color = "danger";
+                        <tr class="text-center">
+                            @{ remainder = (int)book.BookPageCount - (int)book.Revalsed;
+                                if (desk == 1)
+                                {
+                                    color = "danger";
+                                }
+                                else if (desk == 2)
+                                {
+                                    color = "warning";
+                                }
+                                else if (desk == 3)
+                                {
+                                    color = "success";
+                                }
+                                else if (desk == 4)
+                                {
+                                    color = "orange";
+                                }
+                                else
+                                {
+                                    color = "primary";
+                                }
                             }
-                            else if (desk == 2)
-                            {
-                                color = "warning";
-                            }
-                            else if (desk == 3)
-                            {
-                                color = "success";
-                            }
-                            else if (desk == 4)
-                            {
-                                color = "orange";
-                            }
-                            else
-                            {
-                                color = "primary";
-                            }
-                        }
-                        <td>@desk</td>
-                        <td class="text-left text-dark font-weight-bold">@book.BookName</td>
-                        <td>@book.BookPageCount</td>
-                        <td>@book.Revalsed</td>
-                        <td class="text-danger font-weight-bold" style="font-size:25px;">@remainder</td>
-                        @{float remainderr = ((float)book.Revalsed / (float)book.BookPageCount) * 100;}
-                        <td>
-                            <div class="progress mb-4">
-                                <div class="progress-bar bg-@color" role="progressbar" style="width:@remainderr%"
-                                     aria-valuenow=@((book.Revalsed/book.BookPageCount)*100) aria-valuemin="0" aria-valuemax=@book.BookPageCount></div>
-                            </div>
-                        </td>
-                        <td>
-                            <div class="col-lg-12">
-                                <a class="btn btn-success btn-sm" href="#">
-                                    <i class="fas fa-up-down">
-                                    </i>
-                                    Kitap Durumu Güncelle
-                                </a>
-                                <a class="btn btn-danger btn-sm" href="#">
-                                    <i class="fas fa-up-down">
-                                    </i>
-                                    Kitap Sil
-                                </a>
-                            </div>
-                        </td>
+                            <td>@desk</td>
+                            <td class="text-left text-dark font-weight-bold">@book.BookName</td>
+                            <td>@book.BookPageCount</td>
+                            <td>@book.Revalsed</td>
+                            <td class="text-danger font-weight-bold" style="font-size:25px;">@remainder</td>
+                            @{float remainderr = ((float)book.Revalsed / (float)book.BookPageCount) * 100;}
+                            <td>
+                                <div class="progress mb-4">
+                                    <div class="progress-bar bg-@color" role="progressbar" style="width:@remainderr%"
+                                         aria-valuenow=@((book.Revalsed/book.BookPageCount)*100) aria-valuemin="0" aria-valuemax=@book.BookPageCount></div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="col-lg-12">
+                                    <a class="btn btn-success btn-sm" href="/StudentBook/Edit/@book.BookId">
+                                        <i class="fa-sharp fa-solid fa-pen mr-1"></i>
+                                         Kitap Durumu Güncelle
+                                    </a>
+                                    <a class="btn btn-danger btn-sm" href="/StudentBook/Delete/@book.BookId">
+                                        <i class="fa-solid fa-trash mr-1"></i>
+                                         Kitap Sil
+                                    </a>
+                                </div>
+                            </td>
 
-                        @{desk++; }
-                    </tr>
+                            @{desk++; }
+                        </tr>
                     }
 
                 </tbody>

@@ -12,5 +12,6 @@ namespace StudentTracking.BusinessLayer.Abstract.IService
         void Add(TEntity entity);
         void Delete(TEntity entity);
         void Update(TEntity entity);
+        TEntity GetById(int id);
     }
 }

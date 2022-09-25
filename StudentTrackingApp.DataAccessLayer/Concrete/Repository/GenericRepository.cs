@@ -25,6 +25,11 @@ namespace StudentTracking.DataAccessLayer.Concrete.Repository
             return _context.Set<TEntity>().SingleOrDefault(filter);
         }
 
+        public TEntity GetById(int id)
+        {
+            return _context.Set<TEntity>().Find(id);
+        }
+
         public void Insert(TEntity entity)
         {
             var addedEntity = _context.Entry(entity);

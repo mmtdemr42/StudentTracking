@@ -1,0 +1,58 @@
+﻿@model StudentTracking.EntityLayer.Book
+@{
+    ViewData["Title"] = "Kitap Güncelle";
+    Layout = "~/Views/Shared/_StudentLayout.cshtml";
+}
+
+<head>
+
+    <link href="~/css/BookAdded/BookRegister.css" rel="stylesheet" />
+</head>
+
+<div class="container register">
+    <div class="row">
+        <div class="col-md-3 register-left" style="margin-top:10rem;">
+            <img src="~/img/kitap.png" />
+            <h3>KİTAP GÜNCELLE</h3>
+        </div>
+        <div class="col-md-9 register-right">
+            <div class="tab-content" id="myTabContent">
+                <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                    <h3 class="register-heading">Durumunu Güncelle!</h3>
+                    <div class="row register-form">
+                        <div class="col-md-12">
+                            @using (Html.BeginForm("Edit", "StudentBook", FormMethod.Post))
+                            {@Html.AntiForgeryToken()
+                                @Html.HiddenFor(b=>b.BookId)
+                            <div class="form-group">
+                                @Html.Label("Kitap Adı")
+                                @Html.TextBoxFor(c => c.BookName, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(b => b.BookName, "", new { @class = "text-danger" })
+                            </div>
+
+                            <div class="form-group">
+                                @Html.Label("Kitap Sayfa Sayısı")
+                                @Html.TextBoxFor(c => c.BookPageCount, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(b => b.BookPageCount, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="form-group">
+                                @Html.Label("Çözülen Sayfa Sayısı")
+                                @Html.TextBoxFor(c => c.Revalsed, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(b => b.Revalsed, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="form-group">
+                                @Html.Label("Ders")
+                                @Html.DropDownListFor(b => b.LessonId, (List<SelectListItem>)ViewBag.valueBook, "Ders seçiniz", new { @class = "form-control" })
+                                @Html.ValidationMessageFor(b => b.LessonId, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="text-center">
+                                <button class="btn btn-primary" type="submit">Güncelle</button>
+                            </div>
+                        }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

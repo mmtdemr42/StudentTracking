@@ -28,6 +28,11 @@ namespace StudentTracking.BusinessLayer.Concrete.GenericService
             _repository.Delete(entity);
         }
 
+        public TEntity GetById(int id)
+        {
+            return _repository.GetById(id);
+        }
+
         public List<TEntity> List()
         {
             return _repository.List();

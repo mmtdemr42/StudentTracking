@@ -39,6 +39,7 @@ namespace StudentTracking.PresentationLayer.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Create(Book book)
         {
             List<SelectListItem> valueBook = (from lesson in lessonManager.List()
@@ -65,6 +66,56 @@ namespace StudentTracking.PresentationLayer.Controllers
             }
 
             return View(book);
+        }
+
+        public IActionResult Edit(int id)
+        {
+            List<SelectListItem> valueBook = (from lesson in lessonManager.List()
+                                              select new SelectListItem
+                                              {
+                                                  Text = lesson.LessonName,
+                                                  Value = lesson.LessonId.ToString(),
+                                              }).ToList();
+            ViewBag.valueBook = valueBook;
+
+            var book = bookmanager.GetById(id);
+            return View(book);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Edit(Book book)
+        {
+            List<SelectListItem> valueBook = (from lesson in lessonManager.List()
+                                              select new SelectListItem
+                                              {
+                                                  Text = lesson.LessonName,
+                                                  Value = lesson.LessonId.ToString(),
+                                              }).ToList();
+            ViewBag.valueBook = valueBook;
+            result = bookValidation.Validate(book);
+            if (result.IsValid)
+            {
+                bookmanager.Update(book);
+                return RedirectToAction("Index");
+
+            }
+            else
+            {
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError(error.PropertyName, error.ErrorMessage);
+                }
+            }
+
+            return View(book);
+        }
+
+        public IActionResult Delete(int id)
+        {
+            var book = bookmanager.GetById(id);
+            bookmanager.Delete(book);
+            return RedirectToAction("Index");
         }
     }
 }

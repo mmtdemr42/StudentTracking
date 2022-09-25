@@ -15,5 +15,6 @@ namespace StudentTracking.DataAccessLayer.Abstract
         void Update(TEntity entity);
         void Delete(TEntity entity);
         List<TEntity> List(Expression<Func<TEntity, bool>> filter);
+        TEntity GetById(int id);
     }
 }

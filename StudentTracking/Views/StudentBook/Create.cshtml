@@ -22,7 +22,7 @@
                     <div class="row register-form">
                         <div class="col-md-12">
                             @using (Html.BeginForm("Create", "StudentBook", FormMethod.Post))
-                            {
+                            {@Html.AntiForgeryToken()
                                 <div class="form-group">
                                     @Html.Label("Kitap Adı")
                                     @Html.TextBoxFor(c => c.BookName, new { @class = "form-control" })
