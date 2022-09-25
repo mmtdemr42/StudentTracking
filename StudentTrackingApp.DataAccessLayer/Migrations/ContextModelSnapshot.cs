@@ -19,21 +19,6 @@ namespace StudentTracking.DataAccessLayer.Migrations
                 .HasAnnotation("ProductVersion", "5.0.17")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("BookStudent", b =>
-                {
-                    b.Property<int>("BooksBookId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("StudentsStudentId")
-                        .HasColumnType("int");
-
-                    b.HasKey("BooksBookId", "StudentsStudentId");
-
-                    b.HasIndex("StudentsStudentId");
-
-                    b.ToTable("BookStudent");
-                });
-
             modelBuilder.Entity("ExamTYTStudent", b =>
                 {
                     b.Property<int>("ExamTYTsExamTYTId")
@@ -47,6 +32,21 @@ namespace StudentTracking.DataAccessLayer.Migrations
                     b.HasIndex("StudentsStudentId");
 
                     b.ToTable("ExamTYTStudent");
+                });
+
+            modelBuilder.Entity("LessonStudent", b =>
+                {
+                    b.Property<byte>("LessonsLessonId")
+                        .HasColumnType("tinyint");
+
+                    b.Property<int>("StudentsStudentId")
+                        .HasColumnType("int");
+
+                    b.HasKey("LessonsLessonId", "StudentsStudentId");
+
+                    b.HasIndex("StudentsStudentId");
+
+                    b.ToTable("LessonStudent");
                 });
 
             modelBuilder.Entity("StudentTracking.EntityLayer.About", b =>
@@ -115,10 +115,23 @@ namespace StudentTracking.DataAccessLayer.Migrations
                         .HasMaxLength(30)
                         .HasColumnType("nvarchar(30)");
 
-                    b.Property<short>("BookPageCount")
+                    b.Property<short?>("BookPageCount")
                         .HasColumnType("smallint");
 
+                    b.Property<byte?>("LessonId")
+                        .HasColumnType("tinyint");
+
+                    b.Property<short>("Revalsed")
+                        .HasColumnType("smallint");
+
+                    b.Property<int?>("StudentId")
+                        .HasColumnType("int");
+
                     b.HasKey("BookId");
+
+                    b.HasIndex("LessonId");
+
+                    b.HasIndex("StudentId");
 
                     b.ToTable("Books");
                 });
@@ -260,12 +273,7 @@ namespace StudentTracking.DataAccessLayer.Migrations
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
 
-                    b.Property<int>("StudentId")
-                        .HasColumnType("int");
-
                     b.HasKey("LessonId");
-
-                    b.HasIndex("StudentId");
 
                     b.ToTable("Lessons");
                 });
@@ -431,21 +439,6 @@ namespace StudentTracking.DataAccessLayer.Migrations
                     b.ToTable("Todos");
                 });
 
-            modelBuilder.Entity("BookStudent", b =>
-                {
-                    b.HasOne("StudentTracking.EntityLayer.Book", null)
-                        .WithMany()
-                        .HasForeignKey("BooksBookId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("StudentTracking.EntityLayer.Student", null)
-                        .WithMany()
-                        .HasForeignKey("StudentsStudentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("ExamTYTStudent", b =>
                 {
                     b.HasOne("StudentTracking.EntityLayer.ExamTYT", null)
@@ -459,6 +452,36 @@ namespace StudentTracking.DataAccessLayer.Migrations
                         .HasForeignKey("StudentsStudentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("LessonStudent", b =>
+                {
+                    b.HasOne("StudentTracking.EntityLayer.Lesson", null)
+                        .WithMany()
+                        .HasForeignKey("LessonsLessonId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("StudentTracking.EntityLayer.Student", null)
+                        .WithMany()
+                        .HasForeignKey("StudentsStudentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("StudentTracking.EntityLayer.Book", b =>
+                {
+                    b.HasOne("StudentTracking.EntityLayer.Lesson", "Lesson")
+                        .WithMany("Books")
+                        .HasForeignKey("LessonId");
+
+                    b.HasOne("StudentTracking.EntityLayer.Student", "Student")
+                        .WithMany("Books")
+                        .HasForeignKey("StudentId");
+
+                    b.Navigation("Lesson");
+
+                    b.Navigation("Student");
                 });
 
             modelBuilder.Entity("StudentTracking.EntityLayer.Evaluation", b =>
@@ -476,17 +499,6 @@ namespace StudentTracking.DataAccessLayer.Migrations
                     b.Navigation("Student");
 
                     b.Navigation("Teacher");
-                });
-
-            modelBuilder.Entity("StudentTracking.EntityLayer.Lesson", b =>
-                {
-                    b.HasOne("StudentTracking.EntityLayer.Student", "Student")
-                        .WithMany("Lessons")
-                        .HasForeignKey("StudentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Student");
                 });
 
             modelBuilder.Entity("StudentTracking.EntityLayer.Question", b =>
@@ -552,6 +564,8 @@ namespace StudentTracking.DataAccessLayer.Migrations
 
             modelBuilder.Entity("StudentTracking.EntityLayer.Lesson", b =>
                 {
+                    b.Navigation("Books");
+
                     b.Navigation("Questions");
 
                     b.Navigation("Subjects");
@@ -559,9 +573,9 @@ namespace StudentTracking.DataAccessLayer.Migrations
 
             modelBuilder.Entity("StudentTracking.EntityLayer.Student", b =>
                 {
-                    b.Navigation("Evaluations");
+                    b.Navigation("Books");
 
-                    b.Navigation("Lessons");
+                    b.Navigation("Evaluations");
 
                     b.Navigation("Questions");
 

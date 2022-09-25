@@ -13,9 +13,13 @@ namespace StudentTracking.EntityLayer
         public int BookId { get; set; }
         [StringLength(30)]
         public string BookName { get; set; }
-        public Int16 BookPageCount { get; set; }
+        public Int16? BookPageCount { get; set; }
+        public Int16 Revalsed { get; set; }
 
         //Relation
-        public List<Student> Students { get; set; }
+        public int? StudentId { get; set; }
+        public Student Student { get; set; }
+        public Byte? LessonId { get; set; }
+        public Lesson Lesson { get; set; }
     }
 }

@@ -18,9 +18,11 @@ namespace StudentTracking.EntityLayer
         //Relation
         public List<Subject> Subjects { get; set; }
 
-        public int StudentId { get; set; }
-        public Student Student { get; set; }
+        public List<Student> Students { get; set; }
 
         public List<Question> Questions { get; set; }
+
+        public List<Book> Books { get; set; }
+
     }
 }

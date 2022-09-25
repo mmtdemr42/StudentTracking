@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace StudentTracking.DataAccessLayer.Migrations
 {
-    public partial class firstDB : Migration
+    public partial class mig_ra_1 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -40,26 +40,12 @@ namespace StudentTracking.DataAccessLayer.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Books",
-                columns: table => new
-                {
-                    BookId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    BookName = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: true),
-                    BookPageCount = table.Column<short>(type: "smallint", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Books", x => x.BookId);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Classes",
                 columns: table => new
                 {
                     ClassId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    ClassNAme = table.Column<string>(type: "nvarchar(5)", maxLength: 5, nullable: true)
+                    ClassName = table.Column<string>(type: "nvarchar(5)", maxLength: 5, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -107,6 +93,18 @@ namespace StudentTracking.DataAccessLayer.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Lessons",
+                columns: table => new
+                {
+                    LessonId = table.Column<byte>(type: "tinyint", nullable: false),
+                    LessonName = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Lessons", x => x.LessonId);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Teachers",
                 columns: table => new
                 {
@@ -121,6 +119,26 @@ namespace StudentTracking.DataAccessLayer.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Teachers", x => x.TeacherId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Subjects",
+                columns: table => new
+                {
+                    SubjectId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    SubjectName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    LessonId = table.Column<byte>(type: "tinyint", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Subjects", x => x.SubjectId);
+                    table.ForeignKey(
+                        name: "FK_Subjects_Lessons_LessonId",
+                        column: x => x.LessonId,
+                        principalTable: "Lessons",
+                        principalColumn: "LessonId",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -157,27 +175,32 @@ namespace StudentTracking.DataAccessLayer.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "BookStudent",
+                name: "Books",
                 columns: table => new
                 {
-                    BooksBookId = table.Column<int>(type: "int", nullable: false),
-                    StudentsStudentId = table.Column<int>(type: "int", nullable: false)
+                    BookId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    BookName = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: true),
+                    BookPageCount = table.Column<short>(type: "smallint", nullable: true),
+                    Revalsed = table.Column<short>(type: "smallint", nullable: true),
+                    StudentId = table.Column<int>(type: "int", nullable: true),
+                    LessonId = table.Column<byte>(type: "tinyint", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_BookStudent", x => new { x.BooksBookId, x.StudentsStudentId });
+                    table.PrimaryKey("PK_Books", x => x.BookId);
                     table.ForeignKey(
-                        name: "FK_BookStudent_Books_BooksBookId",
-                        column: x => x.BooksBookId,
-                        principalTable: "Books",
-                        principalColumn: "BookId",
+                        name: "FK_Books_Lessons_LessonId",
+                        column: x => x.LessonId,
+                        principalTable: "Lessons",
+                        principalColumn: "LessonId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_BookStudent_Students_StudentsStudentId",
-                        column: x => x.StudentsStudentId,
+                        name: "FK_Books_Students_StudentId",
+                        column: x => x.StudentId,
                         principalTable: "Students",
                         principalColumn: "StudentId",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -190,7 +213,8 @@ namespace StudentTracking.DataAccessLayer.Migrations
                     EvaluationContent = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: true),
                     EvaluationDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     EvaluationStatus = table.Column<bool>(type: "bit", nullable: false),
-                    StudentId = table.Column<int>(type: "int", nullable: false)
+                    StudentId = table.Column<int>(type: "int", nullable: false),
+                    TeacherId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -201,6 +225,12 @@ namespace StudentTracking.DataAccessLayer.Migrations
                         principalTable: "Students",
                         principalColumn: "StudentId",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Evaluations_Teachers_TeacherId",
+                        column: x => x.TeacherId,
+                        principalTable: "Teachers",
+                        principalColumn: "TeacherId",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -228,43 +258,24 @@ namespace StudentTracking.DataAccessLayer.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Lessons",
+                name: "LessonStudent",
                 columns: table => new
                 {
-                    LessonId = table.Column<byte>(type: "tinyint", nullable: false),
-                    LessonName = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
-                    StudentId = table.Column<int>(type: "int", nullable: false)
+                    LessonsLessonId = table.Column<byte>(type: "tinyint", nullable: false),
+                    StudentsStudentId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Lessons", x => x.LessonId);
+                    table.PrimaryKey("PK_LessonStudent", x => new { x.LessonsLessonId, x.StudentsStudentId });
                     table.ForeignKey(
-                        name: "FK_Lessons_Students_StudentId",
-                        column: x => x.StudentId,
-                        principalTable: "Students",
-                        principalColumn: "StudentId",
+                        name: "FK_LessonStudent_Lessons_LessonsLessonId",
+                        column: x => x.LessonsLessonId,
+                        principalTable: "Lessons",
+                        principalColumn: "LessonId",
                         onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Todos",
-                columns: table => new
-                {
-                    TodoId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    TodoFirst = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    TodoFinish = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    TodoTitle = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    TodoContent = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
-                    TodoStatus = table.Column<bool>(type: "bit", nullable: false),
-                    StudentId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Todos", x => x.TodoId);
                     table.ForeignKey(
-                        name: "FK_Todos_Students_StudentId",
-                        column: x => x.StudentId,
+                        name: "FK_LessonStudent_Students_StudentsStudentId",
+                        column: x => x.StudentsStudentId,
                         principalTable: "Students",
                         principalColumn: "StudentId",
                         onDelete: ReferentialAction.Cascade);
@@ -299,30 +310,38 @@ namespace StudentTracking.DataAccessLayer.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Subjects",
+                name: "Todos",
                 columns: table => new
                 {
-                    SubjectId = table.Column<int>(type: "int", nullable: false)
+                    TodoId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    SubjectName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    LessonId = table.Column<int>(type: "int", nullable: false),
-                    LessonId1 = table.Column<byte>(type: "tinyint", nullable: true)
+                    TodoFirst = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    TodoFinish = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    TodoTitle = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    TodoContent = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
+                    TodoStatus = table.Column<bool>(type: "bit", nullable: false),
+                    StudentId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Subjects", x => x.SubjectId);
+                    table.PrimaryKey("PK_Todos", x => x.TodoId);
                     table.ForeignKey(
-                        name: "FK_Subjects_Lessons_LessonId1",
-                        column: x => x.LessonId1,
-                        principalTable: "Lessons",
-                        principalColumn: "LessonId",
-                        onDelete: ReferentialAction.Restrict);
+                        name: "FK_Todos_Students_StudentId",
+                        column: x => x.StudentId,
+                        principalTable: "Students",
+                        principalColumn: "StudentId",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_BookStudent_StudentsStudentId",
-                table: "BookStudent",
-                column: "StudentsStudentId");
+                name: "IX_Books_LessonId",
+                table: "Books",
+                column: "LessonId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Books_StudentId",
+                table: "Books",
+                column: "StudentId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Evaluations_StudentId",
@@ -330,14 +349,19 @@ namespace StudentTracking.DataAccessLayer.Migrations
                 column: "StudentId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Evaluations_TeacherId",
+                table: "Evaluations",
+                column: "TeacherId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_ExamTYTStudent_StudentsStudentId",
                 table: "ExamTYTStudent",
                 column: "StudentsStudentId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Lessons_StudentId",
-                table: "Lessons",
-                column: "StudentId");
+                name: "IX_LessonStudent_StudentsStudentId",
+                table: "LessonStudent",
+                column: "StudentsStudentId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Questions_LessonId",
@@ -360,9 +384,9 @@ namespace StudentTracking.DataAccessLayer.Migrations
                 column: "TeacherId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Subjects_LessonId1",
+                name: "IX_Subjects_LessonId",
                 table: "Subjects",
-                column: "LessonId1");
+                column: "LessonId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Todos_StudentId",
@@ -379,7 +403,7 @@ namespace StudentTracking.DataAccessLayer.Migrations
                 name: "Admins");
 
             migrationBuilder.DropTable(
-                name: "BookStudent");
+                name: "Books");
 
             migrationBuilder.DropTable(
                 name: "Contacts");
@@ -391,6 +415,9 @@ namespace StudentTracking.DataAccessLayer.Migrations
                 name: "ExamTYTStudent");
 
             migrationBuilder.DropTable(
+                name: "LessonStudent");
+
+            migrationBuilder.DropTable(
                 name: "Questions");
 
             migrationBuilder.DropTable(
@@ -398,9 +425,6 @@ namespace StudentTracking.DataAccessLayer.Migrations
 
             migrationBuilder.DropTable(
                 name: "Todos");
-
-            migrationBuilder.DropTable(
-                name: "Books");
 
             migrationBuilder.DropTable(
                 name: "ExamTYTs");
