@@ -34,7 +34,7 @@ namespace StudentTracking.PresentationLayer.Controllers
             result = examTYTValidation.Validate(examTYT);
             if (result.IsValid)
             {
-                
+
                 examManager.Add(examTYT);
                 return RedirectToAction("Index");
             }
@@ -49,6 +49,46 @@ namespace StudentTracking.PresentationLayer.Controllers
             return View(examTYT);
         }
 
+        public IActionResult Edit(int id)
+        {
+            var exam = examManager.GetById(id);
+            return View(exam);
+        }
 
+        [HttpPost]
+        [AutoValidateAntiforgeryToken]
+        public IActionResult Edit(ExamTYT examTYT)
+        {
+            result = examTYTValidation.Validate(examTYT);
+            if (result.IsValid)
+            {
+
+                examManager.Update(examTYT);
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError(error.PropertyName, error.ErrorMessage);
+                }
+            }
+
+            return View(examTYT);
+        }
+
+        public IActionResult Delete(int id)
+        {
+            var exam = examManager.GetById(id);
+            if (exam != null)
+            {
+                examManager.Delete(exam);
+            }
+            else
+            {
+                ViewBag.alerttt = "Böyle bir sınav bulunamadı";
+            }
+            return RedirectToAction("Index");
+        }
     }
 }
