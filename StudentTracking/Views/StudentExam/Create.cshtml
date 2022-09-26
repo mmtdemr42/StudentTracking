@@ -1,0 +1,167 @@
+﻿@model StudentTracking.EntityLayer.ExamTYT
+@{
+    ViewData["Title"] = "Yeni Sınav Ekle";
+    Layout = "~/Views/Shared/_StudentLayout.cshtml";
+}
+
+@using (Html.BeginForm("Create", "StudentExam", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    <div class="container col-md-11 justify-content-center px-5 pb-5 pt-2 form-group border border-primary" style="margin-top:2%;">
+        <div class="row justify-content-between my-3 border border-primary p-3">
+            <h2 class="text-primary font-weight-bold">Yeni Sınav Ekle</h2>
+            <div class="text-center">
+                <button type="submit" class="btn  btn-lg btn-primary">
+                    Kaydet
+                </button>
+            </div>
+        </div>
+        <div class="row border border-primary p-3">
+            <div class="col-md-3">
+                @Html.Label("Sınav Tarihi")
+                <input type="date" name="ExamTYTDate" class="form-control">
+                @Html.ValidationMessageFor(w => w.ExamTYTDate, null, new { @class = "text-danger" })
+            </div>
+            <div class="col-sm-9">
+                @Html.Label("Sınav Adı")
+                @Html.TextBoxFor(w => w.ExamTYTName, new { @class = "form-control" })
+                @Html.ValidationMessageFor(w => w.ExamTYTName, null, new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="row border border-primary mt-3 p-3">
+            <h3 class="my-2 text-primary font-weight-bold">Dersler</h3>
+
+            <div class="row mt-3 text-right">
+                <div class="col">
+                    <div class="row align-items-center">
+                        <h4 class="text-danger font-weight-bold ml-5 pl-5">Türkçe</h4>
+                        <div class="col mr-5 pr-5">
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-md">
+                                        @Html.Label("Doğru")
+                                    </div>
+                                    <div class="col-md">
+                                        @Html.TextBoxFor(w => w.TurkceDogru, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(w => w.TurkceDogru, null, new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="col-md-6 mt-2">
+                                <div class="row">
+                                    <div class="col-md">
+                                        @Html.Label("Yanlış")
+                                    </div>
+                                    <div class="col-md">
+                                        @Html.TextBoxFor(w => w.TurkceYanlis, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(w => w.TurkceYanlis, null, new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="row align-items-center">
+                        <h4 class="text-danger font-weight-bold ml-3">Sosyal Bilimler</h4>
+                        <div class="col mr-5 pr-5">
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        @Html.Label("Doğru")
+                                    </div>
+                                    <div class="col-md-6">
+                                        @Html.TextBoxFor(w => w.SosyalBilimlerDogru, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(w => w.SosyalBilimlerDogru, null, new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="col-md-6 mt-2">
+                                <div class="row">
+                                    <div class="col-md">
+                                        @Html.Label("Yanlış")
+                                    </div>
+                                    <div class="col-md">
+                                        @Html.TextBoxFor(w => w.SosyalBilimlerYanlis, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(w => w.SosyalBilimlerYanlis, null, new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+            </div>
+            <div class="row mt-3 text-right">
+                <div class="col">
+                    <div class="row align-items-center">
+                        <h4 class="text-danger font-weight-bold ml-5">Matematik</h4>
+                        <div class="col mr-5 pr-5">
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-md">
+                                        @Html.Label("Doğru")
+                                    </div>
+                                    <div class="col-md">
+                                        @Html.TextBoxFor(w => w.MatematikDogru, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(w => w.MatematikDogru, null, new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="col-md-6 mt-2">
+                                <div class="row">
+                                    <div class="col-md">
+                                        @Html.Label("Yanlış")
+                                    </div>
+                                    <div class="col-md">
+                                        @Html.TextBoxFor(w => w.MatematikYanlis, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(w => w.MatematikYanlis, null, new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="row align-items-center">
+                        <h4 class="text-danger font-weight-bold ml-5">Fen  Bilimler</h4>
+                        <div class="col mr-5 pr-5">
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-md">
+                                        @Html.Label("Doğru")
+                                    </div>
+                                    <div class="col-md">
+                                        @Html.TextBoxFor(w => w.FenBilimleriDogru, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(w => w.FenBilimleriDogru, null, new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="col-md-6 mt-2">
+                                <div class="row">
+                                    <div class="col-md">
+                                        @Html.Label("Yanlış")
+                                    </div>
+                                    <div class="col-md">
+                                        @Html.TextBoxFor(w => w.FenBilimleriYanlis, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(w => w.FenBilimleriYanlis, null, new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+       
+    </div>
+}

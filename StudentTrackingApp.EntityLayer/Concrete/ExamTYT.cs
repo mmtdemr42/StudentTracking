@@ -9,20 +9,25 @@ namespace StudentTracking.EntityLayer
 {
     public class ExamTYT
     {
+        public ExamTYT()
+        {
+            this.ExamTYTDate = DateTime.Now;
+        }
+
         [Key]
         public int ExamTYTId { get; set; }
 
         [StringLength(50)]
         public string ExamTYTName { get; set; }
-        public DateTime ExamTYTDate { get; set; }
-        public Byte TurkceDogru { get; set; }
-        public Byte TurkceYanlis { get; set; }
-        public Byte SosyalBilimlerDogru { get; set; }
-        public Byte SosyalBilimlerYanlis { get; set; }
-        public Byte MatematikDogru { get; set; }
-        public Byte MatematikYanlis { get; set; }
-        public Byte FenBilimleriDogru { get; set; }
-        public Byte FenBilimleriYanlis { get; set; }
+        public DateTime? ExamTYTDate { get; set; }
+        public float TurkceDogru { get; set; }
+        public float TurkceYanlis { get; set; }
+        public float SosyalBilimlerDogru { get; set; }
+        public float SosyalBilimlerYanlis { get; set; }
+        public float MatematikDogru { get; set; }
+        public float MatematikYanlis { get; set; }
+        public float FenBilimleriDogru { get; set; }
+        public float FenBilimleriYanlis { get; set; }
 
 
         //Relation
